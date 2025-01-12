@@ -1,4 +1,4 @@
-/* West Building (10 floors, 4 elevators) */
+/* East Expansion (24 floors, 2 elevators) */
 
 // Define Elevator class to manage individual elevator behaviors and state
 class Elevator {
@@ -34,12 +34,10 @@ class Elevator {
   }
 }
 
-// Initialize four elevator instances
-const elevator1 = new Elevator(1, 1, "any"); // Elevator 1 starts idle on floor 1
-const elevator2 = new Elevator(2, 2, "any"); // Elevator 2 starts idle on floor 2
-const elevator3 = new Elevator(3, 5, "any"); // Elevator 3 starts idle on floor 5
-const elevator4 = new Elevator(4, 10, "any"); // Elevator 4 starts idle on floor 10
-const elevators = [elevator1, elevator2, elevator3, elevator4]; // Store elevators in an array for easy management
+// Initialize two elevator instances
+const elevator1 = new Elevator(1, 8, "any"); // Elevator 1 starts idle on Floor 8
+const elevator2 = new Elevator(2, 17, "any"); // Elevator 2 starts idle on Floor 17
+const elevators = [elevator1, elevator2]; // Store elevators in an array for easy management
 
 // Check traffic flow patterns and adjust elevator behavior for rush hours
 function trafficFlowCheck() {
@@ -49,18 +47,19 @@ function trafficFlowCheck() {
 
   const isMorningRush = (currentHour === 7 && currentMinutes >= 30) || (currentHour === 8) || (currentHour === 9 && currentMinutes <= 30); // Determine if it's morning rush hour (7:30 AM - 9:30 AM)
   const isEveningRush = (currentHour === 15 && currentMinutes >= 30) || (currentHour === 16) || (currentHour === 17 && currentMinutes <= 30); // Determine if it's evening rush hour (3:30 PM - 5:30 PM)
-  
+
   if (isMorningRush) {
-    // Morning rush: Elevator 1 and 2 are set to "up" only
-    console.log("Morning rush detected: Elevator 1 and 2 set to 'up' only.");
+    // Morning rush: Elevator 1 is set to "up" only and to idle at Floor 1; Elevator 2 is set to idle at Floor 12
+    console.log("Morning rush detected: Adjusting elevator settings.");
     elevator1.currentDirection = "up";
-    elevator2.currentDirection = "up";
+    elevator1.idleFloor = 1;
+    elevator2.idleFloor = 12;
   } else if (isEveningRush) {
-    // Evening rush: Elevator 3 and 4 is set to "down" only; Elevator 3 is set to idle at Floor 9
-    console.log("Evening rush detected: Elevator 3 idle position set to Floor 9, Elevator 3 and 4 set to 'down' only.");
-    elevator3.idleFloor = 9;
-    elevator3.currentDirection = "down";
-    elevator4.currentDirection = "down";
+    // Evening rush: Elevator 2 is set to "down" only and to idle at Floor 24; Elevator 1 is set to idle at Floor 13
+    console.log("Evening rush detected: Adjusting elevator settings.");
+    elevator2.currentDirection = "down";
+    elevator2.idleFloor = 24;
+    elevator1.idleFloor = 13;
   } else {
     // Non-rush hour: Reset elevators to default settings
     console.log("No rush hour: Resetting elevators to default settings.");
@@ -105,8 +104,7 @@ function start() {
 
   // Simulate button presses at different times and locations
   setTimeout(() => buttonPressed(3, "up"), 2000); // Button pressed at Floor 3 for "up"
-  setTimeout(() => buttonPressed(8, "down"), 4000); // Button pressed at Floor 8 for "down"
-  setTimeout(() => buttonPressed(6, "up"), 6000); // Button pressed at Floor 6 for "up"
+  setTimeout(() => buttonPressed(2, "down"), 4000); // Button pressed at Floor 2 for "down"
 }
 
 start();
